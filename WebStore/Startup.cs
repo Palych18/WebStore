@@ -32,17 +32,10 @@ namespace WebStore
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
-
-            var greetings = Configuration["Greetings"];
+            app.UseRouting();            
 
             app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/greetings", async context =>
-                {
-                    await context.Response.WriteAsync(greetings);
-                });
-
+            {    
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

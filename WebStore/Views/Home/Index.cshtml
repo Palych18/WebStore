@@ -1,16 +1,21 @@
-﻿
-<!DOCTYPE html>
+﻿<partial name="Partial/_Slider"/>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Главная</title>
-</head>
-<body>
-    <h3>Магазин товаров</h3>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <partial name="Partial/_LeftSidebar" /> <!--left-sidebar-->
+            </div>
 
-    <p>
-        <a href="/Home/Employees">Сотрудники магазина</a>
-    </p>
-</body>
-</html>
+            <div class="col-sm-9 padding-right">
+
+                <partial name="Partial/_FeaturesItems" /> <!--features_items-->
+
+                <partial name="Partial/_CategoryTab" /> <!--/category-tab-->
+
+                <partial name="Partial/_RecommendedItems" /> <!--/recommended_items-->
+
+            </div>
+        </div>
+    </div>
+</section>

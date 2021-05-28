@@ -1,45 +1,40 @@
 ﻿
 @model IEnumerable<WebStore.Models.Employee>
 
-<!DOCTYPE html>
+    <div class="container">
+        <h3>Сотрудники магазина</h3>
+        <hr />
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Сотрудники</title>
-</head>
-<body>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Отчество</th>
+                    <th>Возраст</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model)
+                {
+                    <tr>
+                        <td>@employee.Id</td>
+                        <td>@employee.SurName</td>
+                        <td>@employee.Name</td>
+                        <td>@employee.Patronymic</td>
+                        <td>@employee.Age</td>
+                        <td>
+                            <a asp-controller="Home" asp-action="EmployeeDetails" asp-route-id="@employee.Id">подробнее...</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-    <h3>Сотрудники магазина</h3>
-    <hr/>
+        <p>
+            <a asp-controller="Home" asp-action="Index">На главную</a>
+        </p>
+    </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>№</th>
-                <th>Фамилия</th>
-                <th>Имя</th>
-                <th>Отчество</th>
-                <th>Возраст</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var employee in Model)
-            {
-            <tr>
-                <td><a asp-controller="Home" asp-action="Details" asp-rout-id="@employee.Id">@employee.Id</a></td>
-                <td>@employee.SurName</td>
-                <td>@employee.Name</td>
-                <td>@employee.Patronymic</td>
-                <td>@employee.Age</td>
-            </tr>
-            }
-        </tbody>
-    </table>
-
-    <p>
-        <a href="/">На главную</a>
-    </p>
-
-</body>
-</html>

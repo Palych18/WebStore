@@ -34,7 +34,7 @@ namespace WebStore
 
             app.UseStaticFiles();
 
-            app.UseRouting();            
+            app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {    

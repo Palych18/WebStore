@@ -34,7 +34,11 @@
                         <a asp-action="Edit" asp-route-id="@employee.Id"><i class="fa fa-edit"></i></a>
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@employee.Id"><i class="fa "></i></a>
+                        <form asp-action="DeleteConfirmed" asp-route-id="@employee.Id">
+                            <button type="submit">
+                                <i class="fa fa-trash-o text-denger"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 }

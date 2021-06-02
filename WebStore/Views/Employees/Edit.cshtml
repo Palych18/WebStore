@@ -1,0 +1,74 @@
+﻿@model WebStore.ViewModels.EmployeeViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container">
+    <h1>Редактирование</h1>
+
+    <h4>Сотрудник</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="form-group">
+                    <label asp-for="SurName" class="control-label"></label>
+                    <input asp-for="SurName" class="form-control" />
+                    <span asp-validation-for="SurName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Patronymic" class="control-label"></label>
+                    <input asp-for="Patronymic" class="form-control" />
+                    <span asp-validation-for="Patronymic" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Age" class="control-label"></label>
+                    <input asp-for="Age" class="form-control" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="WorkExperience" class="control-label"></label>
+                    <input asp-for="WorkExperience" class="form-control" />
+                    <span asp-validation-for="WorkExperience" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Post" class="control-label"></label>
+                    <input asp-for="Post" class="form-control" />
+                    <span asp-validation-for="Post" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Education" class="control-label"></label>
+                    <input asp-for="Education" class="form-control" />
+                    <span asp-validation-for="Education" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Сохранить" class="btn btn-primary" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Назад к списку</a>
+    </div>
+</div>
+

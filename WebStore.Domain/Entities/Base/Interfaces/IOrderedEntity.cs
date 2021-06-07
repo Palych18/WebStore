@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebStore.Domain.Entities.Base.Interfaces
 {
-    public interface IOrderEntity : IEntity
+    public interface IOrderedEntity : IEntity
     {
         int Order { get; }
     }

@@ -12,6 +12,6 @@ namespace WebStore.Domain.Entities
     {
         public int Order { get; set; }
 
-        public int? PrentId { get; set; }
+        public int? ParentId { get; set; }
     }
 }

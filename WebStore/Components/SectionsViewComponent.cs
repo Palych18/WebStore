@@ -51,7 +51,7 @@ namespace WebStore.Components
 
             parent_sections_views.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
 
-            return View();
+            return View(parent_sections_views);
         }
     }
 }

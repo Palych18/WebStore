@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace WebStore.Controllers
     public class EmployeesController : Controller
     {
         private readonly IEmployeesData _EmployeesData;
+        private readonly ILogger<EmployeesController> _Logger;
 
-        public EmployeesController(IEmployeesData EmployeesData)
+        public EmployeesController(IEmployeesData EmployeesData, ILogger<EmployeesController> Logger)
         {
             _EmployeesData = EmployeesData;
+            _Logger = Logger;
         }
 
         public IActionResult Index() => View(_EmployeesData.GetAll());
@@ -62,6 +65,8 @@ namespace WebStore.Controllers
             if (!ModelState.IsValid)
                 return View(Model);
 
+            _Logger.LogInformation($"Редактирование сотрудника id: {Model.Id}.");
+
             var employee = new Employee
             {
                 Id = Model.Id,
@@ -79,6 +84,8 @@ namespace WebStore.Controllers
 
             else
                 _EmployeesData.Update(employee);
+
+            _Logger.LogInformation($"Редактирование сотрудника id: {Model.Id} завершено.");
 
             return RedirectToAction("Index");
         }
@@ -108,7 +115,9 @@ namespace WebStore.Controllers
         [HttpPost]
         public IActionResult DeleteConfirmed(int id)
         {
+            _Logger.LogInformation($"Удаление сотрудника id: {id}.");
             _EmployeesData.Delete(id);
+            _Logger.LogInformation($"Удаление сотрудника id: {id} завершено.");
             return RedirectToAction("Index");
         }
     }

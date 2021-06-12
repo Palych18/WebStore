@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,10 +13,12 @@ namespace WebStore.Services.InMemory
     public class InMemoryEnployeesData : IEmployeesData
     { 
         private int _CurrentMaxId;
+        private readonly ILogger<InMemoryEnployeesData> _Logger;
 
-        public InMemoryEnployeesData()
+        public InMemoryEnployeesData(ILogger<InMemoryEnployeesData> Logger)
         {
             _CurrentMaxId = TestData.Employees.Max(i => i.Id);
+            _Logger = Logger;
         }
 
         public int Add(Employee employee)
@@ -27,13 +30,27 @@ namespace WebStore.Services.InMemory
             employee.Id = ++_CurrentMaxId;
             TestData.Employees.Add(employee);
 
+            _Logger.LogInformation("Сотрудник id:{0} добавлен.", employee.Id);
+
             return employee.Id;
         }
 
         public bool Delete(int id)
         {
             var db_item = Get(id);
-            if (db_item is null) return false;
+            if (db_item is null)
+            { 
+                _Logger.LogWarning("При удалении сотрудник id:{0} не найден.", id);
+                return false;
+            }
+
+            var result = TestData.Employees.Remove(db_item);
+
+            if (result)
+                _Logger.LogInformation("Сотрудник id:{0} удалён.", id);
+            else
+                _Logger.LogError("При удалении сотрудник id:{0} не найден.", id);
+
             return TestData.Employees.Remove(db_item);
         }
 
@@ -58,6 +75,8 @@ namespace WebStore.Services.InMemory
             db_item.WorkExperience = employee.WorkExperience;
             db_item.Post = employee.Post;
             db_item.Education = employee.Education;
+
+            _Logger.LogInformation("Сотрудник id:{0} отредактирован.", employee.Id);
         }
     }
 }

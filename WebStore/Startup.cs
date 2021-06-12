@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using WebStore.DAL.Context;
 using WebStore.Data;
 using WebStore.Services;
+using WebStore.Services.InMemory;
+using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 
 namespace WebStore
@@ -32,7 +34,11 @@ namespace WebStore
             services.AddTransient<WebStoreDBInitializer>();
 
             services.AddSingleton<IEmployeesData, InMemoryEnployeesData>();
-            services.AddSingleton<IProductData, InMemoryProductData>();
+
+            if(Configuration["ProductsDataSource"] == "db")            
+                services.AddScoped<IProductData, SqlProductData>();
+           else
+                services.AddSingleton<IProductData, InMemoryProductData>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }

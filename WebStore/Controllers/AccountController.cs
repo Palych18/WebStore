@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WebStore.Domain.Entities.Identity;
 using WebStore.ViewModels;
 
@@ -19,7 +18,7 @@ namespace WebStore.Controllers
             _UserManager = UserManager;
             _SignInManager = SignInManager;
         }
-
+        #region Register
         public IActionResult Register() => View(new RegisterUserViewModel());
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -45,10 +44,41 @@ namespace WebStore.Controllers
 
             return View(Model);
         }
+        #endregion
+        public IActionResult Login(string ReturnUrl) => View(new LoginViewModel { ReturnUrl = ReturnUrl });
 
-        public IActionResult Login() => View();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel Model)
+        {
+            if (!ModelState.IsValid) return View(Model);
 
-        public IActionResult Logout() => RedirectToAction("Index", "Home");
+            var login_result = await _SignInManager.PasswordSignInAsync(
+                Model.UserName,
+                Model.Password,
+                Model.RememberMe,
+#if DEBUG
+                false
+#else
+                true
+#endif
+                );
+
+            if (login_result.Succeeded)
+            {                
+                return LocalRedirect(Model.ReturnUrl ?? "/");
+            }
+
+            ModelState.AddModelError("", "Ошибка в имени пользователя, либо в пароле");
+
+            return View(Model);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _SignInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
         public IActionResult AccessDenied() => View();
     }

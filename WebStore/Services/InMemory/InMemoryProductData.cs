@@ -11,15 +11,9 @@ namespace WebStore.Services.InMemory
 {
     public class InMemoryProductData : IProductData
     {
-        IEnumerable<Brand> IProductData.GetBrands()
-        {
-            return (IEnumerable<Brand>)TestData.Brands;
-        }
+        public IEnumerable<Brand> GetBrands() => TestData.Brands;       
 
-        IEnumerable<Section> IProductData.GetSections()
-        {
-            return (IEnumerable<Section>)TestData.Sections;
-        }
+        public IEnumerable<Section> GetSections() => TestData.Sections;
 
         public IEnumerable<Product> GetProducts(ProductFilter Filter = null)
         {
@@ -33,5 +27,7 @@ namespace WebStore.Services.InMemory
 
             return query;
         }
+
+        public Product GetProductById(int Id) => TestData.Products.SingleOrDefault(p => p.Id == Id);
     }
 }

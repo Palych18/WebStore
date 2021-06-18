@@ -3,22 +3,35 @@
 <div class="features_items">
     <!--features_items-->
     <h2 class="title text-center">Товары</h2>
+
     @foreach (var product in Model)
     {
         <div class="col-sm-4">
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">
-                        <img src="~/images/home/@product.ImageUrl" alt="@product.Name" />
+                        <img src="~/images/shop/@product.ImageUrl" alt="@product.Name" />
                         <h2>@product.Price.ToString("C")</h2>
-                        <p>@product.Name</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>В корзину</a>
+                        <p>
+                            <a asp-controller="Catalog" asp-action="Details" asp-route-Id="@product.Id">@product.Name</a>
+                        </p>
+                        <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id"
+                           class="btn btn-default add-to-cart">
+                            <i class="fa fa-shopping-cart"></i>
+                            В корзину
+                        </a>
                     </div>
                     <div class="product-overlay">
                         <div class="overlay-content">
                             <h2>@product.Price.ToString("C")</h2>
-                            <p>@product.Name</p>
-                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>В корзину</a>
+                            <p>
+                                <a asp-controller="Catalog" asp-action="Details" asp-route-Id="@product.Id">@product.Name</a>
+                            </p>
+                            <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id"
+                               class="btn btn-default add-to-cart">
+                                <i class="fa fa-shopping-cart"></i>
+                                В корзину
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -31,5 +44,6 @@
             </div>
         </div>
     }
+
 
 </div><!--features_items-->

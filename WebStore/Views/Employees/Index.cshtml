@@ -1,35 +1,41 @@
-﻿
+﻿@using WebStore.Domain.Entities.Identity
 @model IEnumerable<WebStore.Models.Employee>
 
-    <div class="container">
-        <h3>Сотрудники магазина</h3>
-        <hr />
+<div class="container">
+    <h3>Сотрудники магазина</h3>
+    <hr />
 
+    @if (User.IsInRole(Role.Administrators))
+    {
         <p>
             <a asp-action="Create" class="btn btn-info">Создать</a>
         </p>
+    }
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>№</th>
-                    <th>Фамилия</th>
-                    <th>Имя</th>
-                    <th>Отчество</th>                    
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var employee in Model)
+    <table class="table">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+            <tr>
+                <td>@employee.Id</td>
+                <td>@employee.SurName</td>
+                <td>@employee.Name</td>
+                <td>@employee.Patronymic</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@employee.Id"><i class="fa fa-info"></i></a>
+                </td>
+
+                @if (User.IsInRole(Role.Administrators))
                 {
-                <tr>
-                    <td>@employee.Id</td>
-                    <td>@employee.SurName</td>
-                    <td>@employee.Name</td>
-                    <td>@employee.Patronymic</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@employee.Id"><i class="fa fa-info"></i></a>
-                    </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@employee.Id"><i class="fa fa-edit"></i></a>
                     </td>
@@ -40,13 +46,14 @@
                             </button>
                         </form>
                     </td>
-                </tr>
                 }
-            </tbody>
-        </table>
+            </tr>
+            }
+        </tbody>
+    </table>
 
-        <p>
-            <a asp-controller="Home" asp-action="Index" class="btn btn-warning">На главную</a>
-        </p>
-    </div>
+    <p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-warning">На главную</a>
+    </p>
+</div>
 

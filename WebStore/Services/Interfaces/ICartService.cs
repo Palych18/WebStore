@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Models;
+using WebStore.ViewModels;
 
 namespace WebStore.Services.Interfaces
 {
-    public interface ICartService.Interfaces
+    public interface ICartService
     {
         void Add(int id);
 
@@ -17,5 +18,5 @@ namespace WebStore.Services.Interfaces
         void Clear();
 
         CartViewModel GetViewModel();
-    }   
+    }
 }

@@ -6,7 +6,7 @@ using WebStore.Models;
 
 namespace WebStore.Services.Interfaces
 {
-    public interface ICartService
+    public interface ICartService.Interfaces
     {
         void Add(int id);
 

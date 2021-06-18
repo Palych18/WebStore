@@ -15,6 +15,7 @@ using WebStore.DAL.Context;
 using WebStore.Data;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Services;
+using WebStore.Services.InCookies;
 using WebStore.Services.InMemory;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
@@ -71,7 +72,7 @@ namespace WebStore
                 });
 
             services.AddSingleton<IEmployeesData, InMemoryEnployeesData>();
-
+            services.AddScoped<ICartService, InCookiesCartService>();
             if(Configuration["ProductsDataSource"] == "db")            
                 services.AddScoped<IProductData, SqlProductData>();
            else

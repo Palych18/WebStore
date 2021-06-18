@@ -1,63 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper.Configuration;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Infrastructure.Mapping;
 using WebStore.Models;
+using WebStore.Services.Interfaces;
 
 namespace WebStore.Controllers
 {
     public class HomeController : Controller
     {
-        
-        public IActionResult Index()
-        {
-            return View();
-        }
 
-        public IActionResult Error404()
-        {
-            return View();
-        }
+        private readonly IConfiguration _Configuration;
 
-        public IActionResult Blog()
-        {
-            return View();
-        }
+        public HomeController(IConfiguration Configuration) => _Configuration = Configuration;
 
-        public IActionResult BlogSingle()
+        public IActionResult Index([FromServices] IProductData ProductData)
         {
+            ViewBag.Products = ProductData.GetProducts().Take(9).ToView();
             return View();
-        }
-
-        public IActionResult Cart()
-        {
-            return View();
-        }
-
-        public IActionResult Checkout()
-        {
-            return View();
-        }
-
-        public IActionResult ContactUs()
-        {
-            return View();
-        }
-
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        public IActionResult ProductDetails()
-        {
-            return View();
-        }
-
-        public IActionResult Shop()
-        {
-            return View();
-        }
+        } 
+        public IActionResult Blog() => View();
     }
 }

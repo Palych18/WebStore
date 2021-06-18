@@ -34,5 +34,7 @@ namespace WebStore.Services.InSQL
             return query;
         }
 
+        public Product GetProductById(int Id) => _db.Products
+            .SingleOrDefault(p => p.Id == Id);
     }
 }

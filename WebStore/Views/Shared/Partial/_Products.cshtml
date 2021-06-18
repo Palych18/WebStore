@@ -3,6 +3,7 @@
 <div class="features_items">
     <!--features_items-->
     <h2 class="title text-center">Товары</h2>
+
     @foreach (var product in Model)
     {
         <div class="col-sm-4">
@@ -14,7 +15,11 @@
                         <p>
                             <a asp-controller="Catalog" asp-action="Details" asp-route-Id="@product.Id">@product.Name</a>
                         </p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>В корзину</a>
+                        <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id"
+                           class="btn btn-default add-to-cart">
+                            <i class="fa fa-shopping-cart"></i>
+                            В корзину
+                        </a>
                     </div>
                     <div class="product-overlay">
                         <div class="overlay-content">
@@ -22,7 +27,11 @@
                             <p>
                                 <a asp-controller="Catalog" asp-action="Details" asp-route-Id="@product.Id">@product.Name</a>
                             </p>
-                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>В корзину</a>
+                            <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id"
+                               class="btn btn-default add-to-cart">
+                                <i class="fa fa-shopping-cart"></i>
+                                В корзину
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -35,5 +44,6 @@
             </div>
         </div>
     }
+
 
 </div><!--features_items-->

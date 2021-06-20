@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Entities.Base;
@@ -10,6 +11,8 @@ namespace WebStore.Domain.Entities
     {
         public string SurName { get; set; }
 
+        [Required]
+        [MaxLength(100)]
         public string Name { get; set; }        
 
         public string Patronymic { get; set; }

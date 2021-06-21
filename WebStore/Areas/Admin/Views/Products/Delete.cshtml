@@ -1,0 +1,12 @@
+﻿@model WebStore.Domain.Entities.Product
+@{
+    ViewBag.Title = "Удаление товара id:" + Model.Id;
+}
+
+<p>@ViewBag.Title</p>
+
+<form asp-action="Delete" asp-route-id="@Model.Id">
+    <input type="submit" value="Удалить" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-warning">К списку</a>
+ </form>
+ 

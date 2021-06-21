@@ -33,6 +33,7 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("MSSQL")));
             services.AddTransient<WebStoreDBInitializer>();
 
@@ -71,7 +72,7 @@ namespace WebStore
                     opt.SlidingExpiration = true;
                 });
 
-            services.AddSingleton<IEmployeesData, InMemoryEnployeesData>();
+            services.AddScoped<IEmployeesData, SqlEmployeesData>();
             services.AddScoped<ICartService, InCookiesCartService>();
             if(Configuration["ProductsDataSource"] == "db")            
                 services.AddScoped<IProductData, SqlProductData>();

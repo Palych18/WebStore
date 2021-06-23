@@ -368,6 +368,3 @@ FodyWeavers.xsd
 /WebStore/wwwroot/js/site.js
 /WebStore/wwwroot/css/site.min.css
 /WebStore/wwwroot/css/site.css
-/WebStore.DAL.Sqlite/Migrations/20210622030617_Init.cs
-/WebStore.DAL.Sqlite/Migrations/20210622030617_Init.Designer.cs
-/WebStore.DAL.Sqlite/Migrations/WebStoreDBModelSnapshot.cs

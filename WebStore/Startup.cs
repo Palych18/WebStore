@@ -33,8 +33,22 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var database_name = Configuration["Database"];
 
-            services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("MSSQL")));
+            switch (database_name)
+            {
+                case "MSSQL":
+                    services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("MSSQL")));
+                    break;
+
+                case "Sqlite":
+                    services.AddDbContext<WebStoreDB>(opt => 
+                        opt.UseSqlite(
+                            Configuration.GetConnectionString("Sqlite"), 
+                            o => o.MigrationsAssembly("WebStore.DAL.Sqlite")));
+                    break;
+            }
+            
             services.AddTransient<WebStoreDBInitializer>();
 
             services.AddIdentity<User, Role>()

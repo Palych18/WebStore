@@ -3,11 +3,13 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using WebStore.DAL.Context;
 
 namespace WebStore.DAL.Sqlite.Migrations
 {
-    [DbContext(typeof(WebStoreDBModelSnapshot))]
-    [Migration("20210622030617_Init")]
+    [DbContext(typeof(WebStoreDB))]
+    [Migration("20210623140255_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

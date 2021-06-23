@@ -33,7 +33,22 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("MSSQL")));
+            var database_name = Configuration["Database"];
+
+            switch (database_name)
+            {
+                case "MSSQL":
+                    services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("MSSQL")));
+                    break;
+
+                case "Sqlite":
+                    services.AddDbContext<WebStoreDB>(opt => 
+                        opt.UseSqlite(
+                            Configuration.GetConnectionString("Sqlite"), 
+                            o => o.MigrationsAssembly("WebStore.DAL.Sqlite")));
+                    break;
+            }
+            
             services.AddTransient<WebStoreDBInitializer>();
 
             services.AddIdentity<User, Role>()
@@ -71,12 +86,13 @@ namespace WebStore
                     opt.SlidingExpiration = true;
                 });
 
-            services.AddSingleton<IEmployeesData, InMemoryEnployeesData>();
+            services.AddScoped<IEmployeesData, SqlEmployeesData>();
             services.AddScoped<ICartService, InCookiesCartService>();
             if(Configuration["ProductsDataSource"] == "db")            
                 services.AddScoped<IProductData, SqlProductData>();
            else
                 services.AddSingleton<IProductData, InMemoryProductData>();
+            services.AddScoped<IOrderService, SqlOrderService>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
@@ -100,7 +116,11 @@ namespace WebStore
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {    
+            {
+                endpoints.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

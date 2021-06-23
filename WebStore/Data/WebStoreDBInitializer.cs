@@ -35,9 +35,6 @@ namespace WebStore.Data
             _Logger.LogInformation("Инициализация БД...");
             var timer = Stopwatch.StartNew();
 
-            //_db.Database.EnsureDeleted();
-            //_db.Database.EnsureCreated();
-
             if (_db.Database.GetPendingMigrations().Any())
             {
                 _Logger.LogInformation("Миграция БД...");
@@ -64,6 +61,16 @@ namespace WebStore.Data
             catch (Exception e)
             {
                 _Logger.LogError(e, "Ошибка при инициализации данных БД системы Identity");
+                throw;
+            }
+
+            try
+            {
+                AddEmployees();
+            }
+            catch (Exception e)
+            {
+                _Logger.LogError(e, "Ошибка при инициализации данных БД сотрудников");
                 throw;
             }
 
@@ -169,6 +176,15 @@ namespace WebStore.Data
 
             _Logger.LogInformation("Инициализация данных БД системы Identity выполнена за {0} c",
                 timer.Elapsed.TotalSeconds);
+        }
+
+        private void AddEmployees()
+        {
+            if (_db.Employees.Any()) return;
+
+            TestData.Employees.ForEach(e => e.Id = 0);
+            _db.Employees.AddRange(TestData.Employees);
+            _db.SaveChanges();
         }
     }
 }

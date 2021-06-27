@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.DAL.Sqlite", "Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore", "UI\WebStore\WebStore.csproj", "{FB534A09-EA06-439D-9C2F-201F02DBFD1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSrore.Interfaces", "Services\WebSrore.Interfaces\WebSrore.Interfaces.csproj", "{CBA296ED-A180-4753-90A4-EA940C23BB7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebSrore.Interfaces", "Services\WebSrore.Interfaces\WebSrore.Interfaces.csproj", "{CBA296ED-A180-4753-90A4-EA940C23BB7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Services", "Services\WebStore.Services\WebStore.Services.csproj", "{F4DBA87B-02DF-4B12-9F85-C10358224930}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Services", "Services\WebStore.Services\WebStore.Services.csproj", "{F4DBA87B-02DF-4B12-9F85-C10358224930}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.WebAPI", "Services\WebStore.WebAPI\WebStore.WebAPI.csproj", "{24EBB53E-D7EE-4E7E-AFDF-2AFF659CCB52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{F4DBA87B-02DF-4B12-9F85-C10358224930}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4DBA87B-02DF-4B12-9F85-C10358224930}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4DBA87B-02DF-4B12-9F85-C10358224930}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24EBB53E-D7EE-4E7E-AFDF-2AFF659CCB52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24EBB53E-D7EE-4E7E-AFDF-2AFF659CCB52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24EBB53E-D7EE-4E7E-AFDF-2AFF659CCB52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24EBB53E-D7EE-4E7E-AFDF-2AFF659CCB52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{FB534A09-EA06-439D-9C2F-201F02DBFD1F} = {94399C53-BD18-4FB3-89FF-5EDC77D309EC}
 		{CBA296ED-A180-4753-90A4-EA940C23BB7E} = {33BFAEC0-05DC-40C6-A581-90DB18737C98}
 		{F4DBA87B-02DF-4B12-9F85-C10358224930} = {33BFAEC0-05DC-40C6-A581-90DB18737C98}
+		{24EBB53E-D7EE-4E7E-AFDF-2AFF659CCB52} = {33BFAEC0-05DC-40C6-A581-90DB18737C98}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67204925-A2C9-43DA-9C17-A384814486AC}

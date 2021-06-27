@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebSrore.Interfaces.TestAPI
 {
-    interface IValuesService
+    public interface IValuesService
     {
         IEnumerable<string> GetAll();
 

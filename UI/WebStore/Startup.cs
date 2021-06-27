@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebSrore.Interfaces.TestAPI;
 using WebStore.DAL.Context;
 using WebStore.Data;
 using WebStore.Domain.Entities.Identity;
@@ -19,6 +20,7 @@ using WebStore.Services.InCookies;
 using WebStore.Services.InMemory;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
+using WebStore.WebAPI.Clients.Values;
 
 namespace WebStore
 {
@@ -90,9 +92,11 @@ namespace WebStore
             services.AddScoped<ICartService, InCookiesCartService>();
             if(Configuration["ProductsDataSource"] == "db")            
                 services.AddScoped<IProductData, SqlProductData>();
-           else
+            else
                 services.AddSingleton<IProductData, InMemoryProductData>();
             services.AddScoped<IOrderService, SqlOrderService>();
+
+            services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new Uri(Configuration["WebAPI"]));
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }

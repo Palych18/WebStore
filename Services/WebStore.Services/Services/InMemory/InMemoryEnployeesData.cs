@@ -10,6 +10,7 @@ using WebStore.Services.Interfaces;
 
 namespace WebStore.Services.InMemory
 {
+    [Obsolete("Поддержка класса размещения сотрудников в памяти прекращена", true)]
     public class InMemoryEnployeesData : IEmployeesData
     { 
         private int _CurrentMaxId;

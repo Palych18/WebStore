@@ -21,6 +21,7 @@ using WebStore.Services.InMemory;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 using WebStore.WebAPI.Clients.Values;
+using WebStore.WebAPI.Clients.Employees;
 
 namespace WebStore
 {
@@ -87,13 +88,13 @@ namespace WebStore
 
                     opt.SlidingExpiration = true;
                 });
-
-            services.AddScoped<IEmployeesData, SqlEmployeesData>();
+                        
             services.AddScoped<ICartService, InCookiesCartService>();
             services.AddScoped<IProductData, SqlProductData>();            
             services.AddScoped<IOrderService, SqlOrderService>();
 
             services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new Uri(Configuration["WebAPI"]));
+            services.AddHttpClient<IEmployeesData, EmployeesClient>(client => client.BaseAddress = new Uri(Configuration["WebAPI"]));
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }

@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebSrore.Interfaces;
 using WebStore.Domain.Entities;
 using WebStore.Services.Interfaces;
 
 namespace WebStore.WebAPI.Controllers
 {
-    [Route("api/employees")]
+    [Route(WebAPIAddress.Employees)]
     [ApiController]
     public class EmployeesApiController : Controller
     {

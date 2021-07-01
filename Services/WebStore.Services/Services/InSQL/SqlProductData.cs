@@ -18,10 +18,14 @@ namespace WebStore.Services.InSQL
             _db = db;
         }
 
-        public IEnumerable<Brand> GetBrands() => _db.Brands;
+        public IEnumerable<Brand> GetBrands() => _db.Brands.Include(b => b.Products);
 
-        public IEnumerable<Section> GetSections() => _db.Sections;
-       
+        public Brand GetBrand(int id) => _db.Brands.Include(b => b.Products).FirstOrDefault(b => b.Id == id);
+
+        public IEnumerable<Section> GetSections() => _db.Sections.Include(s => s.Products);
+
+        public Section GetSection(int id) => _db.Sections.Include(s => s.Products).FirstOrDefault(s => s.Id == id);
+
         public IEnumerable<Product> GetProducts(ProductFilter Filter = null)
         {
             IQueryable<Product> query = _db.Products
@@ -46,9 +50,5 @@ namespace WebStore.Services.InSQL
             .Include(p => p.Brand)
             .Include(p => p.Section)
             .SingleOrDefault(p => p.Id == Id);
-
-        Section IProductData.GetSection(int id) => _db.Sections.Include(s => s.Products).FirstOrDefault(s => s.Id == id);
-
-        Brand IProductData.GetBrand(int id) => _db.Brands.Include(b => b.Products).FirstOrDefault(b => b.Id == id);
     }
 }

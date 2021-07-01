@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using WebSrore.Interfaces;
@@ -16,34 +17,21 @@ namespace WebStore.WebAPI.Clients.Products
     {
         public ProductsClient(HttpClient Client) : base(Client, WebAPIAddress.Products) { }
 
-        Brand IProductData.GetBrand(int id)
+        public IEnumerable<Section> GetSections() => Get<IEnumerable<Section>>($"{Address}/section");
+
+        public Section GetSection(int id) => Get<Section>($"{Address}/sections/{id}");
+
+        public IEnumerable<Brand> GetBrands() => Get<IEnumerable<Brand>>($"{Address}/brand");
+
+        public Brand GetBrand(int id) => Get<Brand>($"{Address}/brands/{id}");
+
+        public IEnumerable<Product> GetProducts(ProductFilter Filter = null)
         {
-            throw new NotImplementedException();
+            var response = Post(Address, Filter ?? new ProductFilter());
+            var products = response.Content.ReadFromJsonAsync<IEnumerable<Product>>().Result;
+            return products;
         }
 
-        IEnumerable<Brand> IProductData.GetBrands()
-        {
-            throw new NotImplementedException();
-        }
-
-        Product IProductData.GetProductById(int Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<Product> IProductData.GetProducts(ProductFilter Filter)
-        {
-            throw new NotImplementedException();
-        }
-
-        Section IProductData.GetSection(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<Section> IProductData.GetSections()
-        {
-            throw new NotImplementedException();
-        }
+        public Product GetProductById(int Id) => Get<Product>($"{Address}/{Id}");
     }
 }

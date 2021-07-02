@@ -23,6 +23,7 @@ using WebStore.Services.Interfaces;
 using WebStore.WebAPI.Clients.Values;
 using WebStore.WebAPI.Clients.Employees;
 using WebStore.WebAPI.Clients.Products;
+using WebStore.WebAPI.Clients.Orders;
 
 namespace WebStore
 {
@@ -93,9 +94,12 @@ namespace WebStore
             services.AddScoped<ICartService, InCookiesCartService>();
             services.AddScoped<IOrderService, SqlOrderService>();
 
-            services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new Uri(Configuration["WebAPI"]));
-            services.AddHttpClient<IEmployeesData, EmployeesClient>(client => client.BaseAddress = new Uri(Configuration["WebAPI"]));
-            services.AddHttpClient<IProductData, ProductsClient>(client => client.BaseAddress = new Uri(Configuration["WebAPI"]));
+            services.AddHttpClient("WebStoreAPI", client => client.BaseAddress = new Uri(Configuration["WebAPI"]))
+               .AddTypedClient<IValuesService, ValuesClient>()
+               .AddTypedClient<IEmployeesData, EmployeesClient>()
+               .AddTypedClient<IProductData, ProductsClient>()
+               .AddTypedClient<IOrderService, OrdersClient>()
+                ;
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }

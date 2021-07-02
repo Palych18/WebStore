@@ -15,9 +15,16 @@ namespace WebStore.WebAPI.Clients.Employees
 {
     public class EmployeesClient : BaseClient, IEmployeesData
     {
-        public EmployeesClient(HttpClient Client) : base(Client, WebAPIAddress.Employees)
-        {
+        public EmployeesClient(HttpClient Client) : base(Client, WebAPIAddress.Employees) { }
 
+        public IEnumerable<Employee> GetAll()
+        {
+            return Get<IEnumerable<Employee>>(Address);
+        }
+
+        public Employee Get(int id)
+        {
+            return Get<Employee>($"{Address}/{id}");
         }
 
         public int Add(Employee employee)
@@ -27,25 +34,15 @@ namespace WebStore.WebAPI.Clients.Employees
             return id;
         }
 
+        public void Update(Employee employee)
+        {
+            Put(Address, employee);
+        }
+
         public bool Delete(int id)
         {
             var result = Delete($"{Address}/{id}").IsSuccessStatusCode;
             return result;
-        }
-
-        public Employee Get(int id)
-        {
-            return Get<Employee>($"{Address}/{id}");
-        }
-                
-        public IEnumerable<Employee> GetAll()
-        {
-            return Get<IEnumerable<Employee>>(Address);
-        }
-
-        public void Update(Employee employee)
-        {
-            Put(Address, employee);
         }
     }
 }

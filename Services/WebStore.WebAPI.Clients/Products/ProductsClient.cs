@@ -18,11 +18,11 @@ namespace WebStore.WebAPI.Clients.Products
     {
         public ProductsClient(HttpClient Client) : base(Client, WebAPIAddress.Products) { }
 
-        public IEnumerable<Section> GetSections() => Get<IEnumerable<SectionDTO>>($"{Address}/section").FromDTO();
+        public IEnumerable<Section> GetSections() => Get<IEnumerable<SectionDTO>>($"{Address}/sections").FromDTO();
 
         public Section GetSection(int id) => Get<SectionDTO>($"{Address}/sections/{id}").FromDTO();
 
-        public IEnumerable<Brand> GetBrands() => Get<IEnumerable<BrandDTO>>($"{Address}/brand").FromDTO();
+        public IEnumerable<Brand> GetBrands() => Get<IEnumerable<BrandDTO>>($"{Address}/brands").FromDTO();
 
         public Brand GetBrand(int id) => Get<BrandDTO>($"{Address}/brands/{id}").FromDTO();
 

@@ -24,6 +24,7 @@ using WebStore.WebAPI.Clients.Values;
 using WebStore.WebAPI.Clients.Employees;
 using WebStore.WebAPI.Clients.Products;
 using WebStore.WebAPI.Clients.Orders;
+using WebStore.WebAPI.Clients.Identity;
 
 namespace WebStore
 {
@@ -37,28 +38,10 @@ namespace WebStore
         }
 
         public void ConfigureServices(IServiceCollection services)
-        {
-            var database_name = Configuration["Database"];
-
-            switch (database_name)
-            {
-                case "MSSQL":
-                    services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("MSSQL")));
-                    break;
-
-                case "Sqlite":
-                    services.AddDbContext<WebStoreDB>(opt => 
-                        opt.UseSqlite(
-                            Configuration.GetConnectionString("Sqlite"), 
-                            o => o.MigrationsAssembly("WebStore.DAL.Sqlite")));
-                    break;
-            }
-            
-            services.AddTransient<WebStoreDBInitializer>();
-
+        {            
             services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<WebStoreDB>()
-                .AddDefaultTokenProviders();
+                .AddIdentityWebStoreWebAPIClients()
+                .AddDefaultTokenProviders();                      
 
             services.Configure<IdentityOptions>(opt =>
                 {
@@ -92,7 +75,7 @@ namespace WebStore
                 });
                         
             services.AddScoped<ICartService, InCookiesCartService>();
-            services.AddScoped<IOrderService, SqlOrderService>();
+            
 
             services.AddHttpClient("WebStoreAPI", client => client.BaseAddress = new Uri(Configuration["WebAPI"]))
                .AddTypedClient<IValuesService, ValuesClient>()
@@ -104,11 +87,8 @@ namespace WebStore
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
-        {
-            using (var scope = services.CreateScope())
-                scope.ServiceProvider.GetRequiredService<WebStoreDBInitializer>().Initialize();
-
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

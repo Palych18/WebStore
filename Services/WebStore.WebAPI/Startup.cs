@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
@@ -95,6 +96,20 @@ namespace WebStore.WebAPI
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebStore.WebAPI", Version = "v1" });
+
+                const string webstory_api_xml = "WebStore.WebAPI.xml";
+                const string webstory_domain_xml = "WebStore.Domain.xml";
+                const string debug_path = "bin/debug/net5.0";
+
+                if (File.Exists(webstory_api_xml))
+                    c.IncludeXmlComments(webstory_api_xml);
+                else if (File.Exists(Path.Combine(debug_path, webstory_api_xml)))
+                    c.IncludeXmlComments(Path.Combine(debug_path, webstory_api_xml));
+
+                if (File.Exists(webstory_domain_xml))
+                    c.IncludeXmlComments(webstory_domain_xml);
+                else if (File.Exists(Path.Combine(debug_path, webstory_domain_xml)))
+                    c.IncludeXmlComments(Path.Combine(debug_path, webstory_domain_xml));
             });
         }
         

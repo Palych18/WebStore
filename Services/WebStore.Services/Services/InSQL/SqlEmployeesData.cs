@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,9 +12,12 @@ namespace WebStore.Services.InSQL
     public class SqlEmployeesData : IEmployeesData
     {
         private readonly WebStoreDB _db;
-        public SqlEmployeesData(WebStoreDB db)
+        private readonly ILogger<SqlEmployeesData> _Logger;
+
+        public SqlEmployeesData(WebStoreDB db, ILogger<SqlEmployeesData> Logger)
         {
             _db = db;
+            _Logger = Logger;
         }
 
         public IEnumerable<Employee> GetAll() => _db.Employees.ToArray();
@@ -27,6 +31,8 @@ namespace WebStore.Services.InSQL
             _db.Add(employee);
 
             _db.SaveChanges();
+
+            _Logger.LogInformation($"Сотрудник {employee.SurName} {employee.Patronymic} {employee.Name} добавлен");
 
             return employee.Id;
         }

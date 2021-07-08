@@ -89,18 +89,24 @@ namespace WebStore.Controllers
                 );
 
             if (login_result.Succeeded)
-            {                
+            {
+                _Logger.LogInformation($"Пользователь {Model.UserName} успешно вошел в систему");
+
                 return LocalRedirect(Model.ReturnUrl ?? "/");
             }
 
             ModelState.AddModelError("", "Ошибка в имени пользователя, либо в пароле");
+
+            _Logger.LogWarning($"Ошибка при указании учётных данных в процессе входа {Model.UserName} в систему");
 
             return View(Model);
         }
 
         public async Task<IActionResult> Logout()
         {
+            var user_name = User.Identity!.Name;
             await _SignInManager.SignOutAsync();
+            _Logger.LogInformation($"Пользователь {user_name} вышел из системы");
             return RedirectToAction("Index", "Home");
         }
 

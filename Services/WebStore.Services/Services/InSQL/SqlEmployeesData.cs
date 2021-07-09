@@ -32,7 +32,7 @@ namespace WebStore.Services.InSQL
 
             _db.SaveChanges();
 
-            _Logger.LogInformation($"Сотрудник {employee.SurName} {employee.Patronymic} {employee.Name} добавлен");
+            _Logger.LogInformation($"Сотрудник id:{employee} добавлен");
 
             return employee.Id;
         }
@@ -42,6 +42,8 @@ namespace WebStore.Services.InSQL
             if (employee is null) throw new ArgumentNullException(nameof(employee));
 
             _db.Update(employee);
+
+            _Logger.LogInformation($"Сотрудник id:{employee} отредактирован");
 
             _db.SaveChanges();
         }
@@ -57,6 +59,8 @@ namespace WebStore.Services.InSQL
             _db.Remove(employee);
 
             _db.SaveChanges();
+
+            _Logger.LogInformation($"Сотрудник id:{id} удалён");
 
             return true;
         }

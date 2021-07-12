@@ -39,29 +39,31 @@ namespace WebStore.Controllers
                 UserName = Model.UserName
             };
 
-            var register_result = await _UserManager.CreateAsync(user, Model.Password);
-            if (register_result.Succeeded)
+            using (_Logger.BeginScope($"Процесс регистрации пользователя {user.UserName}"))
             {
-                _Logger.LogInformation("Пользователь {0} успешно зарегистрирован", user.UserName);
+                var register_result = await _UserManager.CreateAsync(user, Model.Password);
+                if (register_result.Succeeded)
+                {
+                    _Logger.LogInformation("Пользователь {0} успешно зарегистрирован", user.UserName);
 
-                await _UserManager.AddToRoleAsync(user, Role.Users);                
+                    await _UserManager.AddToRoleAsync(user, Role.Users);
 
-                _Logger.LogInformation("Пользователю {0} назначена роль {1}", user.UserName, Role.Users);
+                    _Logger.LogInformation("Пользователю {0} назначена роль {1}", user.UserName, Role.Users);
 
-                await _SignInManager.SignInAsync(user, false);
+                    await _SignInManager.SignInAsync(user, false);
 
-                _Logger.LogInformation("Пользователю {0} пользователь автоматически вошёл в систему после регистрации", user.UserName);
+                    _Logger.LogInformation("Пользователю {0} пользователь автоматически вошёл в систему после регистрации", user.UserName);
 
-                return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var error in register_result.Errors)
+                    ModelState.AddModelError("", error.Description);
+
+                _Logger.LogWarning("Ошибка при регистрации пользователя {0} в систему: {1}",
+                    Model.UserName,
+                    string.Join(", ", register_result.Errors.Select(err => err.Description)));
             }
-
-            foreach (var error in register_result.Errors)
-                ModelState.AddModelError("", error.Description);
-
-            _Logger.LogWarning("Ошибка при регистрации пользователя {0} в систему: {1}",
-                Model.UserName,
-                string.Join(", ", register_result.Errors.Select(err => err.Description)));
-
 
             return View(Model);
         }
@@ -89,18 +91,24 @@ namespace WebStore.Controllers
                 );
 
             if (login_result.Succeeded)
-            {                
+            {
+                _Logger.LogInformation($"Пользователь {Model.UserName} успешно вошел в систему");
+
                 return LocalRedirect(Model.ReturnUrl ?? "/");
             }
 
             ModelState.AddModelError("", "Ошибка в имени пользователя, либо в пароле");
+
+            _Logger.LogWarning($"Ошибка при указании учётных данных в процессе входа {Model.UserName} в систему");
 
             return View(Model);
         }
 
         public async Task<IActionResult> Logout()
         {
+            var user_name = User.Identity!.Name;
             await _SignInManager.SignOutAsync();
+            _Logger.LogInformation($"Пользователь {user_name} вышел из системы");
             return RedirectToAction("Index", "Home");
         }
 

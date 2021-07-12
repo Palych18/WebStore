@@ -24,5 +24,7 @@ namespace WebStore.Domain.Entities
         public string Post { get; set; }  //должность
 
         public string Education { get; set; }  //образование
+
+        public override string ToString() => $"(id:{Id}) {SurName} {Name} {Patronymic} age:{Age}";
     }
 }

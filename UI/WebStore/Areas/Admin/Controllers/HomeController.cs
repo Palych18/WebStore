@@ -31,5 +31,10 @@ namespace WebStore.Areas.Admin.Controllers
         {
             throw new NotImplementedException();
         }
+
+        public void Throw(string expected_error_message)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

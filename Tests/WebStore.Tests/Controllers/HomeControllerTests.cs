@@ -44,6 +44,19 @@ namespace WebStore.Tests.Controllers
             var result = controller.Blog();
 
             Assert.IsType<ViewResult>(result);
-        }        
+        }
+
+        [TestMethod]
+        public void Throw_thrown_ApplicationException3()
+        {
+            var configuration_mock = new Mock<IConfiguration>();
+
+            var controller = new HomeController(configuration_mock.Object);
+            const string expected_error_message = "Test error message";
+
+            var exception = Assert.Throws<ApplicationException>(() => controller.Throw(expected_error_message));
+
+            Assert.Equal(expected_error_message, exception.Message);
+        }
     }
 }

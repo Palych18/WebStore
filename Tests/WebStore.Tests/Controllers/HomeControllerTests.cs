@@ -17,7 +17,8 @@ namespace WebStore.Tests.Controllers
 {
     [TestClass]
     public class HomeControllerTests
-    {        
+    {  
+
         [TestMethod]
         public void Index_Returns_View()
         {
@@ -32,5 +33,17 @@ namespace WebStore.Tests.Controllers
 
             Assert.IsType<ViewResult>(result);
         }
+
+        [TestMethod]
+        public void Blog_Returns_View()
+        {
+            var configuration_mock = new Mock<IConfiguration>();
+
+            var controller = new HomeController(configuration_mock.Object);
+
+            var result = controller.Blog();
+
+            Assert.IsType<ViewResult>(result);
+        }        
     }
 }

@@ -21,7 +21,10 @@ namespace WebStore.Controllers
         {
             ViewBag.Products = ProductData.GetProducts().Take(9).ToView();
             return View();
-        } 
+        }
+
+        public IActionResult Throw(string Message) => throw new ApplicationException(Message ?? "Error in Main controller");
+
         public IActionResult Blog() => View();
     }
 }

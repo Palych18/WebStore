@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System;
 using WebStore.Domain.Entities.Identity;
 
 namespace WebStore.Areas.Admin.Controllers
@@ -8,9 +10,26 @@ namespace WebStore.Areas.Admin.Controllers
     [Authorize(Roles = Role.Administrators)]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public HomeController(IConfiguration @object)
+        {
+            Object = @object;
+        }
+
+        public IConfiguration Object { get; }
+
+        public IActionResult Index(Services.Interfaces.IProductData @object)
         {
             return View();
+        }
+
+        public object Blog()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object SecondAction()
+        {
+            throw new NotImplementedException();
         }
     }
 }

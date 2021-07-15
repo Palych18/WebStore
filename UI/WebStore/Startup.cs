@@ -28,6 +28,8 @@ using WebStore.WebAPI.Clients.Identity;
 using Microsoft.Extensions.Logging;
 using WebStore.Logger;
 using WebStore.Infrastructure.MiddleWare;
+using WebSrore.Interfaces.Services;
+using WebStore.Services.Services.InCookies;
 
 namespace WebStore
 {
@@ -77,8 +79,9 @@ namespace WebStore
                     opt.SlidingExpiration = true;
                 });
                         
-            services.AddScoped<ICartService, InCookiesCartService>();
-            
+            services.AddScoped<ICartStore, InCookiesCartStore>();
+            services.AddScoped<ICartService, CartService>();
+
 
             services.AddHttpClient("WebStoreAPI", client => client.BaseAddress = new Uri(Configuration["WebAPI"]))
                .AddTypedClient<IValuesService, ValuesClient>()

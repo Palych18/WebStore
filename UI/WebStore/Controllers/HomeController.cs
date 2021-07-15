@@ -1,18 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using WebStore.Infrastructure.Mapping;
-using WebStore.Domain.Entities;
+
 using WebStore.Services.Interfaces;
+
 
 namespace WebStore.Controllers
 {
+    
     public class HomeController : Controller
     {
-
         private readonly IConfiguration _Configuration;
 
         public HomeController(IConfiguration Configuration) => _Configuration = Configuration;
@@ -21,7 +20,17 @@ namespace WebStore.Controllers
         {
             ViewBag.Products = ProductData.GetProducts().Take(9).ToView();
             return View();
-        } 
+        }
+
+        public IActionResult Throw(string Message) => throw new ApplicationException(Message ?? "Error in Main controller");
+
+        public IActionResult SecondAction()
+        {
+            return Content(_Configuration["Greetings"]);
+            
+        }
+
         public IActionResult Blog() => View();
+        
     }
 }

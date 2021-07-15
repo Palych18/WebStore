@@ -9,7 +9,7 @@ using WebStore.Services.Interfaces;
 
 namespace WebStore.Controllers
 {
-    //[Controller]
+    
     public class HomeController : Controller
     {
         private readonly IConfiguration _Configuration;
@@ -27,10 +27,10 @@ namespace WebStore.Controllers
         public IActionResult SecondAction()
         {
             return Content(_Configuration["Greetings"]);
-            //return View("Index");
+            
         }
 
         public IActionResult Blog() => View();
-        //public IActionResult BlogSingle() => View();
+        
     }
 }

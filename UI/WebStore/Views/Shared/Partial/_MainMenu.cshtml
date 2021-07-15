@@ -24,3 +24,12 @@
         <li><a asp-controller="WebAPI" asp-action="Index">WebAPI</a></li>
     </ul>
 </div>
+
+@functions
+{
+    string IsActive(string Controller, string Action = "Index") =>
+        Equals(ViewContext.RouteData.Values["Controller"], Controller) &&
+        Equals(ViewContext.RouteData.Values["Action"], Action)
+            ? "active"
+            : null;
+}

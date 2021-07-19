@@ -12,6 +12,7 @@ namespace WebStore.TagHelpers
     public class ActiveRoute : TagHelper
     {
         private const string AttributeName = "ws-is-active-route";
+        private const string IgnoreAction = "ws-ignore-action";
 
         [HtmlAttributeName("asp-controller")]
         public string Controller { get; set; }
@@ -27,14 +28,16 @@ namespace WebStore.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            if (IsActive())
+            var is_ignore_action = output.Attributes.ContainsName(IgnoreAction);
+
+            if (IsActive(is_ignore_action))
                 MakeActive(output);
 
 
             output.Attributes.RemoveAll(AttributeName);
         }
 
-        private bool IsActive()
+        private bool IsActive(bool IsIgnoreAction)
         {
             var route_values = ViewContext.RouteData.Values;
 
@@ -42,10 +45,12 @@ namespace WebStore.TagHelpers
             var current_action = route_values["action"]?.ToString();
 
             const StringComparison str_cmp = StringComparison.OrdinalIgnoreCase;
-            if (!string.IsNullOrEmpty(Controller) && !string.Equals(Controller, current_controller, str_cmp))
+            if (Controller is { Length: > 0 } controller && !string.Equals(controller, current_controller, str_cmp))
                 return false;
 
-            if (!string.IsNullOrEmpty(Action) && !string.Equals(Action, current_action, str_cmp))
+            if (IsIgnoreAction) return true;
+
+            if (Action is { Length: > 0 } action && !string.Equals(action, current_action, str_cmp))
                 return false;
 
             foreach (var (key, value) in RouteValues)

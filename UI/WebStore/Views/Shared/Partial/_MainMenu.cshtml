@@ -4,7 +4,7 @@
         <li class="dropdown">
             <a href="#">Магазин<i class="fa fa-angle-down"></i></a>
             <ul role="menu" class="sub-menu">
-                <li><a asp-controller="Catalog" asp-action="Index">Каталог</a></li>
+                <li><a ws-is-active-route asp-controller="Catalog" asp-action="Index">Каталог</a></li>
                 <li><a asp-controller="Home" asp-action="ProductDetails">О товаре</a></li>
                 <li><a asp-controller="Home" asp-action="Checkout">Оформить заказ</a></li>
                 <li><a asp-controller="Home" asp-action="Cart">Корзина</a></li>
@@ -23,6 +23,7 @@
         <li><a asp-controller="Employees" asp-action="Index">Список сотрудников</a></li>
         <li><a asp-controller="WebAPI" asp-action="Index">WebAPI</a></li>
     </ul>
+    <TestHelper><</TestHelper>
 </div>
 
 @functions

@@ -16,6 +16,7 @@ namespace WebStore.Components
         public IViewComponentResult Invoke()
         {
             ViewBag.Count = _CartService.GetViewModel().ItemsCount;
+
             return View();
         }
     }

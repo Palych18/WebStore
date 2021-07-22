@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
 using WebStore.Domain;
+using WebStore.Domain.DTO;
 using WebStore.Domain.Entities;
 using WebStore.Services.Interfaces;
 
@@ -26,7 +27,7 @@ namespace WebStore.Services.InSQL
 
         public Section GetSection(int id) => _db.Sections.Include(s => s.Products).FirstOrDefault(s => s.Id == id);
 
-        public IEnumerable<Product> GetProducts(ProductFilter Filter = null)
+        public ProductsPage GetProducts(ProductFilter Filter = null)
         {
             IQueryable<Product> query = _db.Products
                 .Include(p => p.Brand)
@@ -43,7 +44,14 @@ namespace WebStore.Services.InSQL
                     query = query.Where(product => product.BrandId == brand_id);
             }
 
-            return query;
+            var total_count = query.Count();
+
+            if (Filter is { PageSize: > 0 and var page_size, Page: > 0 and var page_number })
+                query = query
+                    .Skip((page_number - 1) * page_size)
+                    .Take(page_size);
+
+            return new ProductsPage(query.AsEnumerable(), total_count);
         }
 
         public Product GetProductById(int Id) => _db.Products

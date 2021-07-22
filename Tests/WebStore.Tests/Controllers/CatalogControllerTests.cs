@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Moq;
+
 using WebStore.Controllers;
 using WebStore.Domain.Entities;
 using WebStore.Services.Interfaces;
@@ -15,7 +18,6 @@ namespace WebStore.Tests.Controllers
         [TestMethod]
         public void Details_Returns_with_Correct_View()
         {
-            
             #region Arrange
 
             const decimal expected_price = 10m;
@@ -36,7 +38,12 @@ namespace WebStore.Tests.Controllers
                    Section = new Section { Id = 1, Order = 1, Name = "Section" }
                });
 
-            var controller = new CatalogController(product_data_mock.Object);
+            var configuration_mock = new Mock<IConfiguration>();
+            configuration_mock
+                .Setup(config => config["CatalogPageSize"])
+                .Returns("6");
+
+            var controller = new CatalogController(product_data_mock.Object, configuration_mock.Object);
 
             #endregion
 

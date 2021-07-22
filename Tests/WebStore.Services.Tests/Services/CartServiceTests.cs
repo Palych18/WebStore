@@ -1,18 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using WebSrore.Interfaces.Services;
 using WebStore.Domain;
 using WebStore.Domain.Entities;
 using WebStore.Services.InCookies;
 using WebStore.Services.Interfaces;
+using WebStore.Services.Services;
 using WebStore.ViewModels;
 using Assert = Xunit.Assert;
+
 
 namespace WebStore.Services.Tests.Services
 {
@@ -33,8 +32,8 @@ namespace WebStore.Services.Tests.Services
             {
                 Items = new List<CartItem>
                 {
-                    new() {ProductId = 1, Quantity = 1},
-                    new() {ProductId = 2, Quantity = 3},
+                    new() { ProductId = 1, Quantity = 1 },
+                    new() { ProductId = 2, Quantity = 3 },
                 }
             };
 
@@ -42,7 +41,7 @@ namespace WebStore.Services.Tests.Services
             _ProductDataMock
                .Setup(c => c.GetProducts(It.IsAny<ProductFilter>()))
                .Returns(
-                    new[]
+                    new ProductsPage(new[]
                     {
                         new Product
                         {
@@ -77,7 +76,8 @@ namespace WebStore.Services.Tests.Services
                             SectionId = 3,
                             Section = new Section{ Id = 3, Name = "Section 3", Order = 3 },
                         },
-                    });
+                    }, 3));
+
             _CartStoreMock = new Mock<ICartStore>();
             _CartStoreMock.Setup(c => c.Cart).Returns(_Cart);
 
@@ -111,6 +111,24 @@ namespace WebStore.Services.Tests.Services
             var actual_count = cart_view_model.ItemsCount;
 
             Assert.Equal(expected_count, actual_count);
+        }
+
+        [TestMethod]
+        public void CartViewModel_Returns_Correct_TotalPrice()
+        {
+            var cart_view_model = new CartViewModel
+            {
+                Items = new[]
+                {
+                    ( new ProductViewModel { Id = 1, Name = "Product 1", Price = 0.5m }, 1 ),
+                    ( new ProductViewModel { Id = 2, Name = "Product 2", Price = 1.5m }, 3 ),
+                }
+            };
+            var expected_total_price = cart_view_model.Items.Sum(item => item.Quantity * item.Product.Price);
+
+            var actual_total_price = cart_view_model.TotalPrice;
+
+            Assert.Equal(expected_total_price, actual_total_price);
         }
 
         [TestMethod]

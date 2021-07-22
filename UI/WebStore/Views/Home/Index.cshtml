@@ -1,36 +1,22 @@
-﻿@using WebStore.Services.Interfaces
-@using WebStore.ViewModels
-@inject IProductData ProductData
-@{
-    var products = ProductData
-        .GetProducts()
-        .Take(9)
-        .Select(p => new ProductViewModel
-        {
-            Id = p.Id,
-            Name = p.Name,
-            Price = p.Price,
-            ImageUrl = p.ImageUrl,
-        });
+﻿@{
+    ViewBag.Title = "Магазин";
 }
-
 <partial name="Partial/_Slider" />
 
 <section>
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                <partial name="Partial/_LeftSidebar" /> <!--left-sidebar-->
+                <partial name="Partial/_LeftSideBar" />
             </div>
 
             <div class="col-sm-9 padding-right">
+                @*<partial name="Partial/_Products" model="@ViewData["Products"]"/>*@
+                <partial name="Partial/_Products" model="@ViewBag.Products" />
 
-                <partial name="Partial/_Products" model="products"/> <!--features_items-->
+                <partial name="Partial/_CategoryTab" />
 
-                <partial name="Partial/_CategoryTab" /> <!--/category-tab-->
-
-                <partial name="Partial/_RecommendedItems" /> <!--/recommended_items-->
-
+                @*<partial name="Partial/_RecomendedItems" />*@
             </div>
         </div>
     </div>

@@ -13,6 +13,8 @@ namespace WebStore.Controllers
 {
     public class CatalogController : Controller
     {
+        private const string __PageSizeConfigName = "CatalogPageSize";
+
         private readonly IProductData _ProductData;
 
         private readonly IConfiguration _Configuration;
@@ -25,8 +27,7 @@ namespace WebStore.Controllers
 
         public IActionResult Index(int? BrandId, int? SectionId, int Page = 1, int? PageSize = null)
         {
-            var page_size = PageSize
-                ?? (int.TryParse(_Configuration["CatalogPageSize"], out var value) ? value : null);
+            var page_size = PageSize ?? _Configuration.GetValue(__PageSizeConfigName, 6);
 
             var filter = new ProductFilter
             {
@@ -46,7 +47,7 @@ namespace WebStore.Controllers
                 PageViewModel = new Domain.ViewModels.PageViewModel
                 {
                     Page = Page,
-                    PageSize = page_size ?? 0,
+                    PageSize = page_size,
                     TotalItems = total_count,
                 }
             });
@@ -60,5 +61,18 @@ namespace WebStore.Controllers
 
             return View(product.ToView());           
         }
+
+        public IActionResult GetFeaturesItems(int? BrandId, int? SectionId, int Page = 1, int? PageSize = null) =>
+            PartialView("Paetial/_Products", GetProducts(BrandId, SectionId, Page, PageSize));
+
+        private IEnumerable<ProductViewModel> GetProducts(int? BrandId, int? SectionId, int Page, int? PageSize) =>
+            _ProductData.GetProducts(new ProductFilter
+            {
+                BrandId = BrandId,
+                SectionId = SectionId,
+                Page = Page,
+                PageSize = PageSize ?? _Configuration.GetValue(__PageSizeConfigName, 6),
+            }).Products.OrderBy(p => p.Order).ToView();
+        
     }
 }

@@ -7,7 +7,9 @@
     <meta name="author" content="">
     <title>@ViewBag.Title | E-Shopper</title>
 
-    <partial name="Partial/_Styles" />
+    @await Html.PartialAsync("Partial/_Styles")
+
+    @await RenderSectionAsync("Styles", false)
 
     <link rel="shortcut icon" href="~/images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/images/ico/apple-touch-icon-144-precomposed.png">
@@ -24,7 +26,9 @@
 
     <partial name="Partial/_Footer" />
 
-    <partial name="Partial/_Scripts"/>
-    
+    <partial name="Partial/_Scripts" />
+
+    @await RenderSectionAsync("Scripts", false)
+
 </body>
 </html>

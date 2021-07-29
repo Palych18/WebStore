@@ -14,8 +14,7 @@
 
         const button = $(this);
 
-        if (button.prop("href").lenght > 0)
-        {
+        if (button.prop("href").length > 0) {
             const page = button.data("page");
 
             const container = $("#catalog-items-container");

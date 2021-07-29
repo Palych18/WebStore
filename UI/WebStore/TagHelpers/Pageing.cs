@@ -46,15 +46,13 @@ namespace WebStore.TagHelpers
             var a = new TagBuilder("a");
 
             PageUrlValues["page"] = PageNumber;
-
             if (PageNumber == PageModel.Page)
             {
-                li.AddCssClass("active");                
+                li.AddCssClass("active");
             }
-                
             else
-            {                
-                a.Attributes["href"] = "#";                
+            {
+                a.Attributes["href"] = "#"; // Url.Action(PageAction, PageUrlValues);
             }
 
             foreach (var (key, value) in PageUrlValues.Where(v => v.Value is not null))

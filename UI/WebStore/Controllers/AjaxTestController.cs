@@ -32,5 +32,7 @@ namespace WebStore.Controllers
                 Message = msg
             });
         }
+
+        public IActionResult SignalRTest() => View();
     }
 }

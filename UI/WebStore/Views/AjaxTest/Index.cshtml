@@ -4,7 +4,7 @@
 
 <div class="container">
     <h3>@ViewData["Title"]</h3>
-    <hr/>
+    <hr />
 
     <div class="row">
         <div class="col-md-4">
@@ -24,7 +24,7 @@
 
             <div id="panel-server"></div>
         </div>
-            
+
         <div class="col-md-4">
             <h4>Рендринг на стороне клиента</h4>
 
@@ -51,6 +51,12 @@
             <div id="panel-js"></div>
         </div>
     </div>
+
+    <hr />
+
+    <a class="btn btn-default" data-ajax="true" data-ajax-url="api/console/WriteLine?Message=Hello%20world!">Hello World!</a>
+
+    <a class="btn btn-danger" data-ajax="true" data-ajax-url="api/console/clear">Clear</a>
 </div>
 
 @section Scripts

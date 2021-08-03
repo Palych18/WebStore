@@ -5,7 +5,8 @@ using WebStore.Domain.Entities.Identity;
 using WebStore.Domain.Entities;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels;
-
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebStore.Controllers
 {
@@ -124,6 +125,13 @@ namespace WebStore.Controllers
             _EmployeesData.Delete(id);
             _Logger.LogInformation($"Удаление сотрудника id: {id} завершено.");
             return RedirectToAction("Index");
+        }
+
+        public async Task<IEnumerable<Employee>> GetAll()
+        {
+            await Task.Delay(2000);
+
+            return _EmployeesData.GetAll();
         }
     }
 }
